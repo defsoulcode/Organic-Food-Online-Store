@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Product;
+use App\Models\User;
+use App\Models\Order;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Cart extends Model
+{
+    use HasFactory;
+    protected $guarded = ['id'];
+    protected $with = ['user', 'product', 'order'];
+    protected $table = 'carts';
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function order()
+    {
+        return $this->hasMany(Order::class, 'cart_id');
+    }
+}
